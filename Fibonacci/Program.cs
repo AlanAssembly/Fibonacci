@@ -11,22 +11,20 @@ namespace Fibonacci
         static void Main() {
 
             Console.WriteLine("Factorial and Fibionacci Approach");
-            while (true)
-            {
+            while (true) {
                 Console.Write("\nNumber = ? ");
                 _ = uint.TryParse(Console.ReadLine(), out uint x);
-                if (x > 0 && x <= 10000)
-                {
-                    Console.WriteLine("\nFibonacci_Recursive({0}) = {1}", x, FibonacciRecursive(x));
-                    // Console.WriteLine("Factorial: {0}", Factorial(x));
-                } else
-                {
+                if (x > 0 && x <= 10000) {
+                    Console.WriteLine("\nFibonacci({0}) = {1}", x, Friendly(Fibonacci(x)));
+                    Console.WriteLine("Factorial: {0}", Friendly(Factorial(x)));
+                } else {
                     Console.WriteLine("Bad number");
                     break;
                 }
             }
         }
 
+        #region FIBONACCI
         // the performance degrades incrementally as the numbers are greater than 40, i.g. 48-> 30 s! fatal
         static long FibonacciRecursive(long number) {
             return number switch {
@@ -39,12 +37,10 @@ namespace Fibonacci
         // works up to 93!
         public static ulong FibonacciUlong(uint number) {
             ulong a = 0, b = 1, result = 0;
-            for (uint i = 0; i <= number; i++)
-            {
+            for (uint i = 0; i <= number; i++) {
                 if (i <= 1)
                     result = i;
-                else
-                {
+                else {
                     result = a + b;
                     a = b;
                     b = result;
@@ -54,14 +50,12 @@ namespace Fibonacci
         }
 
         // final - works up to 10,000 !!!
-        public static BigInteger FibonacciIterative(uint number) {
+        public static BigInteger Fibonacci(uint number) {
             BigInteger a = 0, b = 1, result = 0;
-            for (uint i = 0; i <= number; i++)
-            {
+            for (uint i = 0; i <= number; i++) {
                 if (i <= 1)
                     result = i;
-                else
-                {
+                else {
                     result = a + b;
                     a = b;
                     b = result;
@@ -69,6 +63,7 @@ namespace Fibonacci
             }
             return result;
         }
+        #endregion
 
         #region FACTORIALS
         // first approach
@@ -86,7 +81,15 @@ namespace Fibonacci
                 _ => number * Factorial(number - 1)
             };
         }
-
         #endregion
+
+
+        static string Friendly(BigInteger number) {
+            var s = number.ToString();
+            return s.Length switch {
+                <= 32 => s,
+                _ => $"{s[0..10]}...{s[^10..]} | LEN: {s.Length}"
+            };
+        }
     }
 }
